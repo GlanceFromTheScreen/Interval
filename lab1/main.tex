@@ -1,0 +1,129 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english, russian]{babel}
+
+\usepackage{amsthm, amsmath, amssymb}
+
+\usepackage{graphicx}
+
+\usepackage{hyperref}
+\usepackage{float}
+
+\usepackage[a4paper, total={6.5in, 10in}]{geometry}
+
+
+\begin{document}
+% Title page 
+\begin{titlepage}
+    \begin{center}
+        \textsc{
+            Санкт-Петербургский политехнический университет имени Петра Великого \\[5mm]
+            Физико-механический институт\\[2mm]
+            Высшая школа прикладной математики и физики            
+        }   
+        \vfill
+        \textbf{\large
+            Отчет по лаборабороной работу №1\\
+            по дисциплине "Интервальный анализ"\\[3mm]
+        }                
+    \end{center}
+
+    \vfill
+    \hfill
+    \begin{minipage}{0.5\textwidth}
+        Выполнил: \\[2mm]   
+		Студент: Хламкин Евгений \\
+		Группа: 5030102/00201\\
+    \end{minipage}
+
+	\hfill
+	\begin{minipage}{0.5\textwidth}
+		Принял: \\[2mm]
+		к. ф.-м. н., доцент \\   
+		Баженов Александр Николаевич
+	\end{minipage}
+
+    \vfill
+    
+    \begin{center}
+    Санкт-Петербург\\
+    2023 г.\\
+    \end{center}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\section{Постановка задачи}
+Найти минимальную $\delta$, чтобы матрица была особенной\\
+Пусть $\textbf{X}$ - интервальная матрица и
+\begin{equation}
+\mathrm{mid}(\textbf{X})=
+\begin{pmatrix}
+1.05 & 1 \\
+0.95 & 1
+\end{pmatrix} 
+\end{equation}
+Необходимо рассмотреть матрицы $X_1$ и $X_2$ для задачи регрессии и томографии соответственно:
+\begin{equation}
+\mathbf{X_1}=
+\begin{pmatrix}
+[1.05-\delta, 1.05+\delta] & [1, 1] \\
+[0.95-\delta, 0.95+\delta] & [1, 1]
+\end{pmatrix} \;\;\;
+\end{equation}
+\begin{equation}
+\mathbf{X_2}=
+\begin{pmatrix}
+[1.05-\delta, 1.05+\delta] & [1-\delta, 1+\delta] \\
+[0.95-\delta, 0.95+\delta] & [1-\delta, 1+\delta]
+\end{pmatrix}
+\end{equation}\\
+
+
+
+\section{Теория}
+\subsection{Определения}
+\begin{itemize}
+    \item Середина матрицы $\mathrm{mid}(\textbf{A})=\{A\;|\;a_{ij}=\mathrm{mid}(\textbf{a}_{ij})\}$
+    \item Радиус матрицы $\mathrm{rad}(\textbf{A})=\{A\;|\;a_{ij}=\mathrm{rad}(\textbf{a}_{ij})\}$
+    \item Матрица $\textbf{A}\in \mathbb{IR}$ называется особенной, если $\exists A \in \textbf{A} : det(A) = 0$.
+    \item Числа $\sigma_1...\sigma_k$, равные квадратным корням из собственных значений матрицы $AA^T$, называется cингулярными числами матрицы $A$.
+    \item Множество вершин интревальной матрицы\\ $\mathrm{vert}(\textbf{A})=\{A\in\mathbb{IR}^{m\times n} \;|\; A=(a_{ij}) \, a_{ij}\in\{\underline{\textbf{a}}_{ij}, \overline{\textbf{a}}_{ij}\}\}$
+\end{itemize}
+
+\section{Реализация}
+
+\begin{enumerate}
+    \item Если интервал симметричен при произвольном $\delta$, то ответ: $0$
+    \item Иначе - применияем метод дихотомии. Устанавливаем на нулевой итерации значение $\delta = 0$, затем с шагом $\epsilon$ движемся вправо. Если при этом $0 \in DET$, то возвращаемся и уменьшаем шаг.
+\end{enumerate}
+
+
+\section{Результаты}
+\begin{enumerate}
+    \item Случай 1 \\
+        Видим, что  $0 \in DET$, а также $mid(X_1) \neq 0$, значит, переходим к пункту 2 описанного алгоритма.
+        В результате получаем $min (\delta) = 0.025$. В таком случае $DET(X_1) = [2.220 *10^{-16}, 0.2]$. Левый конец с точностью до машинного эпсилон равен нулю
+
+     \item Случай 2 \\
+        Видим, что $0 \in det X_2$, а также $midX_2  \neq 0$,
+        значит, переходим к пункту 2 алгоритма.
+        В результате получаем min $\delta = 0.05$. В таком случае $DET(X_2) = [1.110 * 10^{−16}
+        , 0.2]$. Левый конец $DET{X_2}$ с
+        точностью до машинного эпсилон равен нулю
+
+
+
+\section{Вывод}
+Данные матрицы $X_1$,$\;X_2$  являются  неособенной при $\delta < 0.051285$ и $\delta \le 0.025$.
+
+\section{Ссылка на Github}
+
+\href{https://github.com/GlanceFromTheScreen/Interval}{GitHub}.
+
+\end{document}
+
+
